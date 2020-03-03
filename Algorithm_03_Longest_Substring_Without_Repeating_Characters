@@ -57,6 +57,14 @@ class Solution:
     start = 0
     for i, ch in enumerate(s):
       if last[ord(ch)] != -1:
+      // ord example: ascii number - unique 
+        >>>ord('a')
+        97
+        >>> ord('b')
+        98
+        >>> ord('c')
+        99
+      //
         start = max(start, last[ord(ch)] + 1)
       ans = max(ans, i - start + 1)
       last[ord(ch)] = i
