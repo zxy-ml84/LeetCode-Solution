@@ -46,4 +46,35 @@ Idea:
       i = max(i, m[s[j]]+1, len = j - i + 1 )
     Time comlexity = O(n)  12ms
     Space comlexity = O(128)
-  
+####################################################################################################
+
+Python3:
+
+class Solution:
+  def lengthOfLongestSubstring(self, s):
+    last = [-1] * 128
+    ans = 0
+    start = 0
+    for i, ch in enumerate(s):
+      if last[ord(ch)] != -1:
+        start = max(start, last[ord(ch)] + 1)
+      ans = max(ans, i - start + 1)
+      last[ord(ch)] = i
+    return ans
+
+C++:
+
+class Solution {
+public:
+  int lengthOfLongestSubstring(string s) {
+    const int n = s.length();
+    int ans = 0;
+    vector<int> idx(128, -1);
+    for (int i = 0, j = 0; j < n; ++j) {
+      i = max(i,idx[s[j]] + 1);
+      ans = max(ans, j - i + 1);      
+      idx[s[j]] = j;
+    }
+    return ans;
+  }
+};
