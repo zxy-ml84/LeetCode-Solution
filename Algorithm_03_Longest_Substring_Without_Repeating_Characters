@@ -1,0 +1,49 @@
+################################################################################################
+Problem:
+
+Given a string, find the length of the longest substring without repeating characters.
+
+Example 1:
+
+Input: "abcabcbb"
+Output: 3 
+Explanation: The answer is "abc", with the length of 3. 
+
+Example 2:
+
+Input: "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.
+
+Example 3:
+
+Input: "pwwkew"
+Output: 3
+Explanation: The answer is "wke", with the length of 3. 
+             Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
+################################################################################################
+Idea:
+-Approach 1: Naive bruce force 
+  O(n^2) substring, each substring take O(n) to check with a hash/array
+  Since the input is ascii, there are 128 unique characters => max length = 128
+  Time comlexity : O(n^3) => (n*128^2); 
+  //986/987 test case passed as 31652^2 around 1^10; 
+  //Normally O(n^2) limit is 10^8
+  //The longest test case length is 31652 => even O(n^2) will TLE（超时），but O(n) would pass
+  Space complexity : 0(128)
+ 
+ -Approach 2: Optimized brute force
+  For each starting index i, find the longest substring
+  O(n)*O(n) = O(n^2) // O(n)个起始坐标， 每个扫描扫描O(n)时间
+  Time comlexity = O(n^2) = O(n*128) //48ms
+  Space comlexity = O(128)
+  
+  -Approach 3: Sliding window/hash table
+    Window (i,j) with unique characters
+      1. Use a hash table to store the last indices of each characters
+      2. Keep track the valid starting point 
+        a. when there is a match update the starting point to the current one 
+      i = max(i, m[s[j]]+1, len = j - i + 1 )
+    Time comlexity = O(n)  12ms
+    Space comlexity = O(128)
+  
