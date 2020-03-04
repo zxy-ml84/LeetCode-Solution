@@ -41,7 +41,8 @@ public:
  
         int l = 0;
         int r = n1;
-               
+        
+        //attention to its boundary conditions****
         while (l < r) {
             const int m1 = l + (r - l) / 2;
             const int m2 = k - m1;
