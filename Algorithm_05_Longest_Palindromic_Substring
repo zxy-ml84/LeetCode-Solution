@@ -1,0 +1,87 @@
+############################################################################
+Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
+
+Example 1:
+
+Input: "babad"
+Output: "bab"
+Note: "aba" is also a valid answer.
+Example 2:
+
+Input: "cbbd"
+Output: "bb"
+############################################################################
+Substring 与Subsequence 的区别：
+    e.g. Input: "babad"。
+    Substring：bab连续的区间
+    Subsequence： bbd可跳跃单顺序不能变
+    
+Idea：
+1.max len = 1000 -> Time complexity = O(n^2)
+2.according to the problem description, find substring and check whether its palidorme
+3.For brute force, totally O(n^2) substring which is (1+2+3+...+n) = (n*(n+1)/2) ~= O(n^2) ->增长是n^2；
+  Also take O(n) time to check. Therefore the time complexity is O(n^3) which might exceed 10^9 -> TLE
+  Space Complexity O(1)
+4. Try all possible i and find the longest palindromic string whose center is i (odd case) and i / i + 1 (even case).
+
+  Time complexity: O(n^2) ->worst case              O(n) -> best case
+
+  Space complexity: O(1)
+  
+  See pic3.
+  If the string is odd, the move which is start from mid of string would move to left/right which is n/2 time -> O(n)
+  Totally the center element of substring would be 2n as there would be the case for either odd and even of string. 
+  n/2*2n = n^2 -> O(n^2)
+  
+  DP 思想在此题：已中心元素center element为出发点，那么最长的回文字符串是多少，一边扩展（左右扩展1位），用上一个比现在短2位的结果去扩展到最                  长的回文字符串：更新最优解
+  如果整个字符串都不相同（没一个回文字符串）
+############################################################################
+
+Python3:
+
+class Solution:
+  def longestPalindrome(self, s: str) -> str:
+    n = len(s)
+    def getLen(l, r):
+      while l >= 0 and r < n and s[l] == s[r]:
+        l -= 1
+        r += 1
+      return r - l - 1 // the length of substring should be r - l + 1 - 2*************
+    
+    start = 0
+    length = 0    
+    for i in range(n):      
+      cur = max(getLen(i, i),
+                getLen(i, i + 1))
+      if cur <= length: continue
+      length = cur
+      start = i - (cur - 1) // 2
+    return s[start : start + length]
+    
+    cpp:
+    
+    class Solution {
+public:
+  string longestPalindrome(string s) {
+    const int n = s.length();
+    auto getLen = [&](int l, int r) {
+      while (l >= 0 && r < n 
+             && s[l] == s[r]) {
+        --l;
+        ++r;
+      }
+      return r - l - 1;
+    };
+    int len = 0;
+    int start = 0;
+    for (int i = 0; i < n; ++i) {
+      int cur = max(getLen(i, i), 
+                    getLen(i, i + 1));
+      if (cur > len) {
+        len = cur;
+        start = i - (len - 1) / 2;
+      }
+    }
+    return s.substr(start, len);
+  }
+};
