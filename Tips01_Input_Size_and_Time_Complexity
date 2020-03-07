@@ -1,0 +1,18 @@
+-CPU: 2GHz ~ 2Gops (w/o SIMD) ~ 2*10^9(single core/single thread)
+
+-Overheading:  Memory Access (e.g.访问array)
+              Branching (e.g.条件判断)
+              All leads CPU not 100% running
+
+-常见面容器：hash set O(1) , tree set, order set O(Logn)
+ Large const factor: unodered set (O(1)~O(100))can be an order slower than set O(logn) even n is 128. 
+
+-Rough esitimation of CPU: 10^6 ~ 10^7 ops/sec base on time complexity
+
+
+Tips with problem solving: 
+  1. Ask for input size 
+  2. According to input size, think about the desire/ideal algorithm in this problem
+  3. If no idea, brute force to ensure the correctness first. Then thinking about optimization.
+  
+
