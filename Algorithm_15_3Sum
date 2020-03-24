@@ -1,0 +1,69 @@
+#################################################################################################
+Problem:
+Given an array nums of n integers, are there elements a, b, c in nums such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.
+
+Note:
+
+The solution set must not contain duplicate triplets.
+
+Example:
+
+Given array nums = [-1, 0, 1, 2, -1, -4],
+
+A solution set is:
+[
+  [-1, 0, 1],
+  [-1, -1, 2]
+]
+
+#################################################################################################
+Idea:
+
+1. sort the input array elements
+2. return the solution (array: element->1*3 vector)
+3. while/for loop to find all solutions
+4. boundary condition: not contain duplicate triplets:[0, 0, 0]
+5. special case: [0, 1, 2, 3, 4, 5, 6]:sum of first 3 elements always > 0 
+                  [-100, 0 , 1, 2, 3, 4, 5, 6, 7]: sum of first element and last 2 elements always < 0
+                  
+
+
+1. 返回是个数组，元素是1*3向量
+2. 多个同样的解要归为一个：[-1,0,1],[0,1,-1] -> [-1,0,1]大小排列？
+3. 先找绝对值一样的？再找不一样的？
+4. 不能3个0
+#######################################################################################################
+Python3:
+
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        n = len(nums)
+        result = []
+        nums.sort()
+        
+        for i in range (n-2):
+            if nums[i] + nums[i+1] + nums[i+2] > 0:
+                break
+            if nums[i] + nums[n-2] +nums[n-1] < 0:
+                continue
+            if i > 0 and nums[i] == nums[i-1]:
+                continue
+            l,r = i+1, n-1
+            while l < r:
+                tmp = nums[i] + nums[l] + nums[r]
+                if tmp == 0:
+                    result.append([nums[i],nums[l],nums[r]])
+                    while l+1 < r and nums[l] == nums[l+1]:
+                        l += 1
+                    l += 1
+                    while l < r-1 and nums[r] == nums[r-1]:
+                        r -= 1
+                    r -= 1
+                elif tmp < 0:
+                    l += 1
+                else: 
+                    r -= 1
+        return result
+                        
+        
+        
