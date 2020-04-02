@@ -1,0 +1,27 @@
+#########################################################
+Idea:连通分量-1
+
+Python:(DFS)
+
+import collections
+class Solution:
+    def makeConnected(self, n: int, connections: List[List[int]]) -> int:
+        if len(connections)<n-1:
+            return -1
+        graph=collections.defaultdict(list)
+        for i,j in connections:
+            graph[i].append(j)
+            graph[j].append(i)  
+        def dfs(i):
+            if not visited[i]:
+                visited[i]=1
+                for nexti in graph[i]:
+                    dfs(nexti)
+            
+        visited=[0]*n
+        res=0
+        for i in range(n):
+            if not visited[i]:
+                dfs(i)
+                res+=1                
+        return res-1
